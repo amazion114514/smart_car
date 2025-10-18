@@ -1,0 +1,41 @@
+graph TD
+  subgraph USER
+    A1[main.c]
+    A2[isr.c]
+  end
+  subgraph MDK
+    M1[All_init]
+    M2[Read_ADC]
+    M3[Seror]
+    M4[Motor]
+    M5[Gyroscope]
+    M6[Kalman_cal]
+    M7[Element]
+    M8[Debug]
+    M9[Duan]
+  end
+  subgraph LIB
+    L1[board/common]
+    L2[seekfree_libraries]
+    L3[seekfree_peripheral]
+  end
+
+  A1 --> M1
+  A1 --> M3
+  A1 --> M8
+  A2 --> M4
+  A2 --> M5
+  A2 --> M3
+
+  M3 --> M2
+  M3 --> M5
+  M3 --> M4
+  M5 --> M6
+
+  M1 --> L2
+  M2 --> L2
+  M4 --> L2
+  M5 --> L3
+  M6 --> L3
+  M8 --> L3
+  L1 --> L2
