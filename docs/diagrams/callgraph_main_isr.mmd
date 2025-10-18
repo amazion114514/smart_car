@@ -1,0 +1,25 @@
+sequenceDiagram
+  participant MAIN as main.c
+  participant ISR as TM1_Isr (isr.c)
+  participant INIT as all_init
+  participant SA as Read_ADC/Seror
+  participant ACT as Motor/Servo
+  participant IMU as Gyro/Kalman
+
+  MAIN->>INIT: board_init(); all_init()
+  loop forever
+    MAIN->>SA: Out_storage(); Po_mode_switch();
+    alt out_ku == 1
+      MAIN->>SA: Read_ADC(); S3010_Direation_Control(); scene_show()
+    else out_ku == 2
+      MAIN->>SA: In_ku(); scene_show()
+    else out_ku == 0
+      MAIN->>SA: oled_menu();
+    end
+  end
+
+  par every 5ms (TIM1)
+    ISR->>ACT: encode(); motor_pid(); motor_control()
+    ISR->>IMU: icm_open(); Angle_Get()
+    ISR->>SA: huoer(); timers++
+  end

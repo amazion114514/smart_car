@@ -1,0 +1,42 @@
+flowchart LR
+  subgraph Application
+    MAIN[main.c]
+    ISR[isr.c]
+  end
+
+  subgraph Business[Perception/Control]
+    READ_ADC[Read_ADC.c]
+    SEROR[Seror.c]
+    MOTOR[Motor.c]
+    GYRO[Gyroscope.c]
+    KAL[Kalman_cal.c]
+    ELEM[Element.c]
+    INIT[All_init.c]
+    DEBUG[Debug.c]
+  end
+
+  subgraph HAL[HAL / Drivers]
+    BOARD[board.c/h]
+    ZF_LIB[seekfree_libraries]
+    ZF_PERI[seekfree_peripheral]
+  end
+
+  MAIN --> INIT
+  MAIN --> SEROR
+  MAIN --> DEBUG
+  ISR --> MOTOR
+  ISR --> GYRO
+  ISR --> SEROR
+
+  SEROR --> READ_ADC
+  SEROR --> GYRO
+  SEROR --> MOTOR
+
+  READ_ADC --> ZF_LIB
+  GYRO --> ZF_PERI
+  MOTOR --> ZF_LIB
+  INIT --> ZF_LIB
+  INIT --> ZF_PERI
+  BOARD --> ZF_LIB
+  ZF_LIB -->|GPIO/ADC/UART/PWM| HAL
+  ZF_PERI -->|OLED/ICM20602| HAL

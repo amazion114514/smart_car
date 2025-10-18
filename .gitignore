@@ -1,0 +1,36 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+out/
+*.o
+*.obj
+*.elf
+*.map
+*.lst
+*.hex
+*.bin
+*.axf
+*.srec
+*.dep
+*.d
+
+# Keil/MDK artifacts
+*.uvopt*
+*.uvgui*
+*.uvprojx
+*.scvd
+*.crun
+电磁四轮/软件/Project/MDK/Out_File/
+
+# Logs & reports
+docs/metrics/
+
+# Python
+__pycache__/
+*.pyc
+
+# Archives
+*.zip
